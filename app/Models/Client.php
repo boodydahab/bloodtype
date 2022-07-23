@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model 
+class Client extends Model
 {
 
     protected $table = 'clients';
@@ -28,12 +28,12 @@ class Client extends Model
 
     public function contacts()
     {
-        return $this->belongsTo('App/Models/contacts\Contacts');
+        return $this->belongsTo('App\Models\contacts\Contacts');
     }
 
     public function governorates()
     {
-        return $this->belongsToMany('\Governorates');
+        return $this->belongsToMany('App\Models\Governorates');
     }
 
     public function posts()
@@ -44,11 +44,6 @@ class Client extends Model
     public function notification()
     {
         return $this->belongsToMany('App\Models\Notification\Notification');
-    }
-
-    public function blood_types()
-    {
-        return $this->belongsToMany('App\Models\BloodType');
     }
 
     public function blood_types()
