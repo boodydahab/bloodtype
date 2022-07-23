@@ -32,14 +32,14 @@ Route::group(['prefix' => 'v1'], function () {
     Route::prefix('governorates')->group(function () {
         Route::get('/', [GovernaorateApiController::class, 'index']);
         Route::get('/{governoratesId}', [GovernaorateApiController::class, 'show']);
-        Route::post('/', [GovernaorateApiController::class, 'create']);
+        Route::post('/', [GovernaorateApiController::class, 'store']);
         Route::put('/{governoratesId}', [GovernaorateApiController::class, 'update']);
     });
 
     Route::prefix('bloodtype')->group(function () {
         Route::get('/', [BloodTypeApiController::class, 'index']);
         Route::get('/{bloodtypeId}', [BloodTypeApiController::class, 'show']);
-        Route::post('/', [BloodTypeApiController::class, 'create']);
+        Route::post('/', [BloodTypeApiController::class, 'store']);
         Route::put('/{bloodtypeId}', [BloodTypeApiController::class, 'update']);
     });
 
