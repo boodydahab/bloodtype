@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\BloodType;
+use App\Models\City;
 use Illuminate\Http\Request;
 
-class BloodTypeApiController extends Controller
+class CitiesApiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,11 @@ class BloodTypeApiController extends Controller
      */
     public function index()
     {
-        $BloodTypes = BloodType::all();
+        $Citys = City::all();
         return [
             "status" => 1,
             "message" => 'success',
-            "data" => $BloodTypes
+            "data" => $Citys
         ];
     }
 
@@ -31,19 +31,19 @@ class BloodTypeApiController extends Controller
      */
     public function store(Request $request)
     {
-        if (BloodType::where('name', $request->name)->count()) {
+        if (City::where('name', $request->name)->count()) {
             return [
                 "status" => 1,
                 "message" => 'name already exist',
             ];
         } else {
-            $newBloodType = new BloodType;
-            $newBloodType->name = $request->name;
-            $newBloodType->save();
+            $newCity = new City;
+            $newCity->name = $request->name;
+            $newCity->save();
             return [
                 "status" => 1,
                 "message" => 'success',
-                "data" => BloodType::where('name', $request->name)->first()
+                "data" => City::where('name', $request->name)->first()
             ];
         }
     }
@@ -56,11 +56,11 @@ class BloodTypeApiController extends Controller
      */
     public function show($id)
     {
-        $BloodType = BloodType::find($id);
+        $City = City::find($id);
         return [
             "status" => 1,
             "message" => 'success',
-            "data" => $BloodType
+            "data" => $City
         ];
     }
 
@@ -73,19 +73,19 @@ class BloodTypeApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!BloodType::find($id)->count()) {
+        if (!City::find($id)->count()) {
             return [
                 "status" => 1,
                 "message" => 'name doen not exist',
             ];
         } else {
-            $newBloodType = BloodType::find($id);
-            $newBloodType->name = $request->name;
-            $newBloodType->save();
+            $newCity = City::find($id);
+            $newCity->name = $request->name;
+            $newCity->save();
             return [
                 "status" => 1,
                 "message" => 'success',
-                "data" => BloodType::where('name', $request->name)->first()
+                "data" => City::where('name', $request->name)->first()
             ];
         }
     }

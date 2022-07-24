@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\BloodType;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
-class BloodTypeApiController extends Controller
+class PostsApiController extends Controller
 {
-    /**
+       /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $BloodTypes = BloodType::all();
+        $Posts = Post::all();
         return [
             "status" => 1,
             "message" => 'success',
-            "data" => $BloodTypes
+            "data" => $Posts
         ];
     }
 
@@ -31,19 +31,19 @@ class BloodTypeApiController extends Controller
      */
     public function store(Request $request)
     {
-        if (BloodType::where('name', $request->name)->count()) {
+        if (Post::where('name', $request->name)->count()) {
             return [
                 "status" => 1,
                 "message" => 'name already exist',
             ];
         } else {
-            $newBloodType = new BloodType;
-            $newBloodType->name = $request->name;
-            $newBloodType->save();
+            $newPost = new Post;
+            $newPost->name = $request->name;
+            $newPost->save();
             return [
                 "status" => 1,
                 "message" => 'success',
-                "data" => BloodType::where('name', $request->name)->first()
+                "data" => Post::where('name', $request->name)->first()
             ];
         }
     }
@@ -56,11 +56,11 @@ class BloodTypeApiController extends Controller
      */
     public function show($id)
     {
-        $BloodType = BloodType::find($id);
+        $Post = Post::find($id);
         return [
             "status" => 1,
             "message" => 'success',
-            "data" => $BloodType
+            "data" => $Post
         ];
     }
 
@@ -73,19 +73,19 @@ class BloodTypeApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!BloodType::find($id)->count()) {
+        if (!Post::find($id)->count()) {
             return [
                 "status" => 1,
                 "message" => 'name doen not exist',
             ];
         } else {
-            $newBloodType = BloodType::find($id);
-            $newBloodType->name = $request->name;
-            $newBloodType->save();
+            $newPost = Post::find($id);
+            $newPost->name = $request->name;
+            $newPost->save();
             return [
                 "status" => 1,
                 "message" => 'success',
-                "data" => BloodType::where('name', $request->name)->first()
+                "data" => Post::where('name', $request->name)->first()
             ];
         }
     }
