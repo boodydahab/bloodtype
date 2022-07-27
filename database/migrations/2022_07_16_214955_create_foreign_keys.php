@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 class CreateForeignKeys extends Migration {
 
@@ -15,11 +16,6 @@ class CreateForeignKeys extends Migration {
 		});
 		Schema::table('clients', function(Blueprint $table) {
 			$table->foreign('city_id')->references('id')->on('cities')
-						->onDelete('no action')
-						->onUpdate('no action');
-		});
-		Schema::table('clients', function(Blueprint $table) {
-			$table->foreign('client_id')->references('id')->on('clients')
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
@@ -79,7 +75,7 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('no action');
 		});
 		Schema::table('contacts', function(Blueprint $table) {
-			$table->foreign('client_id')->references('phone')->on('clients')
+			$table->foreign('client_id')->references('id')->on('clients')
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
