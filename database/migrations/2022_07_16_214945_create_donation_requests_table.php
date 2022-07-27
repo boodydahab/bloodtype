@@ -19,8 +19,8 @@ class CreateDonationRequestsTable extends Migration {
 			$table->string('bags_num');
 			$table->text('details');
 			$table->integer('blood_type_id');
-			$table->decimal('latitude', 10,8);
-			$table->decimal('longitude', 10,8);
+			$table->decimal('latitude', 10,10);
+			$table->decimal('longitude', 10,10);
 		});
 	}
 

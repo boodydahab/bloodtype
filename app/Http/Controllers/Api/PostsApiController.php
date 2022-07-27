@@ -29,24 +29,7 @@ class PostsApiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        if (Post::where('name', $request->name)->count()) {
-            return [
-                "status" => 1,
-                "message" => 'name already exist',
-            ];
-        } else {
-            $newPost = new Post;
-            $newPost->name = $request->name;
-            $newPost->save();
-            return [
-                "status" => 1,
-                "message" => 'success',
-                "data" => Post::where('name', $request->name)->first()
-            ];
-        }
-    }
+
 
     /**
      * Display the specified resource.
@@ -71,24 +54,7 @@ class PostsApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        if (!Post::find($id)->count()) {
-            return [
-                "status" => 1,
-                "message" => 'name doen not exist',
-            ];
-        } else {
-            $newPost = Post::find($id);
-            $newPost->name = $request->name;
-            $newPost->save();
-            return [
-                "status" => 1,
-                "message" => 'success',
-                "data" => Post::where('name', $request->name)->first()
-            ];
-        }
-    }
+
 
     /**
      * Remove the specified resource from storage.

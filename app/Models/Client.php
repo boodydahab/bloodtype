@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Client extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Client extends Authenticatable
 {
 
     protected $table = 'clients';
@@ -50,5 +50,11 @@ class Client extends Model
     {
         return $this->belongsToMany('App\Models\BloodType');
     }
+
+
+   protected $hidden =
+   [
+    'password','api_token'
+   ];
 
 }
