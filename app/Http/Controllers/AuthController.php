@@ -16,10 +16,10 @@ class AuthController extends Controller
             'name' => 'required',
             'city_id' => 'required',
             'phone' => 'required',
-            'donation_last_date' => 'required',
+            'last_donation_date' => 'required',
             'password' => 'required|confirmed',
-            'blood_type' => 'required|in:O-,O+,B-,B+,A-,A+,AB-,AB+',
-            'email' => 'required|unique',
+            'blood_type_id' => 'required',
+            'email' => 'required|unique:clients',
 
         ]);
 

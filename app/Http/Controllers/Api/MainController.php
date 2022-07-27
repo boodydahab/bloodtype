@@ -86,6 +86,7 @@ class MainController extends Controller
             "data" => $settings
         ];
     }
+
     public function donations()
     {
         $donation = Donation_request::all();
@@ -95,6 +96,7 @@ class MainController extends Controller
             "data" => $donation
         ];
     }
+
 
     public function contacts(Request $request)
     {

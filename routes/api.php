@@ -28,13 +28,19 @@ Route::prefix('v1')->group(function () {
     Route::get('bloodtype', [MainController::class, 'bloodTypes']);
     Route::get('bloodtype/{id}', [MainController::class, 'bloodType']);
 
-    Route::get('notification', [MainController::class, 'notifications']);
+
 
     Route::get('setting', [MainController::class, 'settings']);
-    Route::get('donation', [MainController::class, 'donations']);
-    Route::post('contact', [MainController::class, 'contacts']);
-    Route::post('post', [MainController::class, 'posts']);
+
+    Route::post('client_governorate', [MainController::class, 'client_governorates']);
 
     Route::post('login', [AuthController::class, 'login'])->name("login");
     Route::post('register', [AuthController::class, 'register'])->name("register");
+
+    Route::middleware('auth:api')->group(function () {
+        Route::get('notification', [MainController::class, 'notifications']);
+        Route::get('donation', [MainController::class, 'donations']);
+        Route::post('contact', [MainController::class, 'contacts']);
+        Route::post('post', [MainController::class, 'posts']);
+    });
 });
