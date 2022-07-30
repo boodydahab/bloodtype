@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ResetPassword;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -59,21 +61,36 @@ class AuthController extends Controller
                 "data" => $validator->errors(),
             ];
         }
-        $client = Client::where('phone', $request->phone)->first();
-        if ($client) {
-            if (Hash::check($request->password, $client->password)) {
+        $user = Client::where('phone', $request->phone)->first();
+        if ($user) {
+            $code = rand(1111,9999);
+            $update = $user->update(['pin_code'=> $code]);
+            if ($update)
+            {
+
+
+            // }
+            // if (Hash::check($request->password, $client->password)) {
+                // smsMisr($request->phone, "your rest code is:" .$code);
+
+                Mail::to($user->email)
+                ->bcc("eng.magwad@gmail.com")
+                ->send(new ResetPassword($code));
+
                 return [
                     "status" => 1,
                     "message" => "Approved",
                     "data" => [
-                        "api_token" => $client->api_token,
-                        "client" => $client,
+                        "api_token" => $user->api_token,
+                        "client" => $user,
+                        'pin_code_for_test'=>$code,
+                        'mail_fails' => Mail::failures()
                     ],
                 ];
             } else {
                 return [
                     "status" => 0,
-                    "message" => "There is no account with this number",
+                    "message" => "try again",
                 ];
             }
 
