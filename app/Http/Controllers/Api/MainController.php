@@ -13,8 +13,9 @@ use App\Models\Notification\Notification;
 use App\Models\Post;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Laravel\Ui\ControllersCommand;
 
-class MainController extends Controller
+class MainController extends ControllersCommand
 {
     public function governorates()
     {

@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Laravel\Ui\ControllersCommand;
 
-class AuthController extends Controller
+class AuthController extends ControllersCommand
 {
     public function register(Request $request)
     {
@@ -68,15 +69,9 @@ class AuthController extends Controller
             if ($update)
             {
 
-
-            // }
-            // if (Hash::check($request->password, $client->password)) {
-                // smsMisr($request->phone, "your rest code is:" .$code);
-
                 Mail::to($user->email)
                 ->bcc("eng.magwad@gmail.com")
                 ->send(new ResetPassword($code));
-
                 return [
                     "status" => 1,
                     "message" => "Approved",
@@ -102,3 +97,10 @@ class AuthController extends Controller
         }
     }
 }
+            // }
+            // if (Hash::check($request->password, $client->password)) {
+                // smsMisr($request->phone, "your rest code is:" .$code);
+
+
+
+
