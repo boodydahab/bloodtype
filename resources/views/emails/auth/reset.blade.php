@@ -11,5 +11,5 @@ Reset
 <p>Your reset code is :{{$code}}</p>
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ config('app.name'),}}
 @endcomponent

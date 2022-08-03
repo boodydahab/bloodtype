@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ContactsController;
-use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Contact;
 use App\Models\Governorate;
@@ -13,9 +12,9 @@ use App\Models\Notification\Notification;
 use App\Models\Post;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Laravel\Ui\ControllersCommand;
+use Illuminate\Routing\Controller;
 
-class MainController extends ControllersCommand
+class MainController extends Controller
 {
     public function governorates()
     {
@@ -60,7 +59,7 @@ class MainController extends ControllersCommand
 
     public function notifications()
     {
-        $notifications = Notification::all();
+        $notifications = Notification::paginate();
         return [
             "status" => 1,
             "msg" => "success",
@@ -80,7 +79,7 @@ class MainController extends ControllersCommand
 
     public function settings()
     {
-        $settings = Setting::all();
+        $settings = Setting::paginate();
         return [
             "status" => 1,
             "msg" => "success",
@@ -101,11 +100,12 @@ class MainController extends ControllersCommand
 
     public function contacts(Request $request)
     {
-        $contacts = Contact::all();
+        $contacts = Contact::paginate();
         return [
             "status" => 1,
             "msg" => "success",
             "data" =>  $contacts
         ];
     }
+
 }
