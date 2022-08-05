@@ -24,7 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 
     Route::post('login', [AuthController::class, 'login'])->name("login");
-    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name("new_password");
+    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name("resetpassword");
     Route::post('new_password', [AuthController::class, 'new_password'])->name("new_password");
     Route::post('register', [AuthController::class, 'register'])->name("register");
 
@@ -42,6 +42,6 @@ Route::prefix('v1')->group(function () {
         Route::post('client_governorate', [MainController::class, 'client_governorates']);
 
         Route::get('favourite-list', [MainController::class,'favourite-list']);
-        Route::post('donation-requests/create',[MainController::class], 'donation-requests/create');
+        Route::post('donation-requests/create',[MainController::class, 'donation-requests/create']);
     });
 });

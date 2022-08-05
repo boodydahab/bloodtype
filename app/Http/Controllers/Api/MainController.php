@@ -77,7 +77,7 @@ class MainController extends Controller
 
 
 
-    public function posts(Request $request)
+    public function posts()
     {
         $posts = Post::paginate();
         return [
@@ -87,15 +87,9 @@ class MainController extends Controller
         ];
     }
 
-    public function post(Request $request)
+    public function post($id)
     {
-        if(!$request->post_id){
-            return [
-                "status" => 0,
-                "msg" => "no post id"
-            ];
-        }
-        $posts = Post::find($request->input('post_id'));
+        $posts = Post::find($id);
         return [
             "status" => 1,
             "msg" => "success",

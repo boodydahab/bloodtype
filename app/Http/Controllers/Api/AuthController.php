@@ -232,8 +232,8 @@ class AuthController extends Controller
         if ($request->has('blood_type'))
         {
             $bloodType = BloodType::where('name', request()->blood_type)->first();
-            $loginUser->blooTypes()->detach($request->$bloodType->id);
-            $loginUser->blooTypes()->attach($request->$bloodType->id);
+            $loginUser->bloodTypes()->detach($request->$bloodType->id);
+            $loginUser->bloodTypes()->attach($request->$bloodType->id);
         }
 
 
