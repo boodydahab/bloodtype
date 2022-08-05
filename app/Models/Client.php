@@ -14,7 +14,7 @@ class Client extends Authenticatable
     protected $table = 'clients';
     public $timestamps = true;
     protected $fillable = array('phone', 'email', 'password', 'name', 'blood_type_id',
-     'last_donation_date', 'city_id',  'date_of_birth');
+     'last_donation_date', 'city_id',  'date_of_birth', 'pin_code');
 
     public function bloodType()
     {
@@ -46,7 +46,7 @@ class Client extends Authenticatable
         return $this->belongsToMany('App\Models\Post');
     }
 
-    public function notification()
+    public function notifications()
     {
         return $this->belongsToMany('App\Models\Notification\Notification');
     }
