@@ -24,12 +24,12 @@ Route::prefix('v1')->group(function () {
 
     Route::post('login', [AuthController::class, 'login'])->name("login");
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name("reset_password");
-    Route::post('new_password', [AuthController::class, 'new_password'])->name("new_password");
+    Route::post('new-password', [AuthController::class, 'new_password'])->name("new_password");
     Route::post('register', [AuthController::class, 'register'])->name("register");
 
-    Route::group([],function () {
+    Route::group(['middleware'=>'auth:api'],function () {
         Route::get('notifications', [MainController::class, 'notifications']);
-        Route::post('profile', [Authontroller::class, 'profile']);
+        Route::post('profile', [AuthController::class, 'profile']);
         Route::get('donation', [MainController::class, 'donations']);
         Route::post('contact', [MainController::class, 'contacts']);
         Route::get('posts', [MainController::class, 'posts']);

@@ -9,7 +9,7 @@ use App\Models\Governorate;
 use App\Models\BloodType;
 use App\Models\Donation_request;
 use App\Models\Notification\Notification;
-use App\Models\Post;
+use App\Models\post;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

@@ -16,10 +16,22 @@ class Post extends Model
         return $this->belongsTo('App\Models\Category');
     }
 
-    public function getThumbnailPathAttribute()
+    public function getThumbnailFullPathAttribute()
     {
         return asset($this->thumbnail);
     }
+
+    protected function getIsFavouriteAttribute()
+    {
+        $favourite = request()->user()->whereHas('favourites', function ($query) { // Call to a member function whereHas() on null
+            $query->where('client_post.post_id', $this->id);
+        })->first();
+        if ($favourite) {
+            return true;
+        }
+        return false;
+    }
+
 
     public function Post()
     {
