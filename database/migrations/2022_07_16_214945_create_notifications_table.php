@@ -9,7 +9,7 @@ class CreateNotificationsTable extends Migration {
 	public function up()
 	{
 		Schema::create('notifications', function(Blueprint $table) {
-			$table->id();
+			$table->incriment('id');
 			$table->timestamps();
 			$table->string('title');
 			$table->text('content');

@@ -7,7 +7,7 @@ use App\Models\City;
 use App\Models\Contact;
 use App\Models\Governorate;
 use App\Models\BloodType;
-use App\Models\Donation_request;
+use App\Models\donation_requests_create;
 use App\Models\Notification\Notification;
 use App\Models\post;
 use App\Models\Setting;
@@ -127,15 +127,61 @@ class MainController extends Controller
         ];
     }
 
-    public function donations()
+    public function donation_requests_create(Request $request)
     {
-        $donation = Donation_request::all();
-        return [
-            "status" => 1,
-            "msg" => "success",
-            "data" => $donation
+        RequestLog::create(['contant' => $request->all(),'service' => 'donation create']);
+        $rules = [
+            'patient_name' => 'required',
+            'patient_age' => 'required:digits',
+            'patient_type' => 'required|in:o-,o-,o+,A-,A+,B-,B+,AB-,AB+,',
+            'patient_num' => 'required:digits',
+            'patient_address' => 'required',
+            'city_id' => 'required|exists:cities,id',
+            'phone' => 'required|digits',
         ];
-    }
+        $validator = validator()->make($request->all(),$rules);
+        if ($validator()->fails())
+        {
+            return responseJson(0,$validator->errors()->first(),$validator->errors());
+        }
+
+        $donationRequest = $request->user()->requests()->create($request->all());
+
+
+        $clientIds = $donationRequest->city->governorate
+        ->clients()->whereHas('bloodtypes', function($q) use ($request,$donationRequest){
+            $q->where('blood_types.name', $donationRequest->blood_type);
+        })->pluck('clients.id')->toArray();
+
+
+        if(count($clientIds))
+        {
+            $notification = $donationRequest->notifications()->create([
+                'title' => 'There is a case near you',
+                'content' => $donationRequest->blood_type . 'I need a donor for his type',
+
+            ]);
+
+
+        $notification->clients()->attach($clientIds);
+
+        $tokens = Token::whereIn('client_id', $$clientIds)->where('token','!=', null)->pluck('token')->toArray();
+            if (count($tokens))
+            {
+                $title = $notification->title;
+                $body = $notification->content;
+                $data = [
+
+                    'donation_request_id' => $donationRequest->id
+                ];
+
+                $send = notifyByFirbase($title, $body, $tokens, $data);
+            }
+        }
+
+        return responseJson(1, 'successfuly add', $send);
+
+}
 
 
     public function contacts(Request $request)

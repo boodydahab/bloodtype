@@ -41,7 +41,7 @@ Route::prefix('v1')->group(function () {
         Route::post('client_governorate', [MainController::class, 'client_governorates']);
 
         Route::get('favourite-list', [MainController::class, 'favourite-list']);
-        Route::post('donation-requests/create', [MainController::class, 'donation-requests']);
+        Route::post('donation-requests/create', [MainController::class, 'donation_requests_create']);
 
         Route::get('post/{id}', [MainController::class, 'post']);
         Route::post('togglefavorites', [MainController::class, 'toggleFavourite']);

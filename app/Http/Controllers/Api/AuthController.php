@@ -10,7 +10,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Symfony\Component\CssSelector\Parser\Token;
 use Symfony\Contracts\Service\Attribute\Required;
+
+
+    //------------------register----------------//
 
 class AuthController extends Controller
 {
@@ -51,6 +55,10 @@ class AuthController extends Controller
         ];
     }
 
+
+     //------------------new_password----------------//
+
+
     public function new_password(Request $request)
     {
         // dd( Client::where('email', $request->email)->first());
@@ -82,6 +90,11 @@ class AuthController extends Controller
             ];
         }
     }
+
+
+
+     //------------------login----------------//
+
 
     public function login(Request $request)
     {
@@ -133,6 +146,10 @@ class AuthController extends Controller
         }
     }
 
+
+
+        //------------------resetPassword----------------//
+
     public function resetPassword(Request $request){
         $validation = validator()->make($request->all(),
         [
@@ -161,6 +178,9 @@ class AuthController extends Controller
         }
 
     }
+
+        //------------------password----------------//
+
 
     public function password(Request $request)
     {
@@ -197,6 +217,7 @@ class AuthController extends Controller
 
     }
 
+    //------------------profile----------------//
 
 
     public function profile(Request $request)
@@ -235,11 +256,46 @@ class AuthController extends Controller
             $loginUser->bloodTypes()->detach($request->$bloodType->id);
             $loginUser->bloodTypes()->attach($request->$bloodType->id);
         }
-
-
-
-
     }
+
+
+    //-------------registerToken-------------//
+
+
+    public function registerToken(Request $request)
+    {
+        $validation = validator()->make($request->all(),
+    ['token' => 'required',
+      'platform' => 'required|in:android , ios'
+    ]);
+
+    if($validation->fails())
+    {
+        $data = $validation->errors();
+        return responseJson(0, $validation->errors()->first(),$data);
+    }
+
+    Token::where('token', $request->token)->delete();
+    $request->user()->tokens()->create($request->all());
+    return responseJson(1, 'you are approved');
+    }
+
+    public function removeToken(Request $request)
+    {
+        $validation = validator()->make($request->all(),
+        [   'token' => 'required' ]);
+
+        if ($validation->fails())
+        {
+            $data = $validation->errors();
+            return responseJson(0, $validation->errors()->first(),$data);
+        }
+
+        Token::where('token',$request->token)->delete();
+        return responseJson(1, 'delete is successfuly');
+    }
+
+
 }
             // }
             // if (Hash::check($request->password, $client->password)) {

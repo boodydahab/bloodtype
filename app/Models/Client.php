@@ -55,6 +55,10 @@ class Client extends Authenticatable
     {
         return $this->belongsToMany('App\Models\BloodType');
     }
+    public function tokens()
+    {
+        return $this->hasMany('App\Models\token');
+    }
 
 
    protected $hidden =

@@ -23,7 +23,7 @@ class Post extends Model
 
     protected function getIsFavouriteAttribute()
     {
-        $favourite = request()->user()->whereHas('favourites', function ($query) { // Call to a member function whereHas() on null
+        $favourite = request()->user()->whereHas('posts', function ($query) { // Call to a member function whereHas() on null
             $query->where('client_post.post_id', $this->id);
         })->first();
         if ($favourite) {

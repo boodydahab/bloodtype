@@ -4,7 +4,7 @@ namespace App\Models\Notification;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model 
+class Notification extends Model
 {
 
     protected $table = 'notifications';
@@ -18,7 +18,7 @@ class Notification extends Model
 
     public function clients()
     {
-        return $this->hasMany('App\Models\Client');
+        return $this->hasMany(Client::class);
     }
 
 }
