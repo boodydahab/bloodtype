@@ -26,6 +26,7 @@ Route::prefix('v1')->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name("reset_password");
     Route::post('new-password', [AuthController::class, 'new_password'])->name("new_password");
     Route::post('register', [AuthController::class, 'register'])->name("register");
+    Route::post('register-token', [AuthController::class, 'register_token'])->name("register_token");
 
     Route::group(['middleware'=>'auth:api'],function () {
         Route::get('notifications', [MainController::class, 'notifications']);

@@ -13,6 +13,7 @@ use App\Models\post;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Models\token;
 
 class MainController extends Controller
 {
@@ -134,11 +135,13 @@ class MainController extends Controller
             'patient_name' => 'required',
             'patient_age' => 'required:digits',
             'patient_type' => 'required|in:o-,o-,o+,A-,A+,B-,B+,AB-,AB+,',
-            'patient_num' => 'required:digits',
+            'bags_num' => 'required:digits',
+            'hospital_address' => 'required',
             'patient_address' => 'required',
             'city_id' => 'required|exists:cities,id',
             'phone' => 'required|digits',
         ];
+
         $validator = validator()->make($request->all(),$rules);
         if ($validator()->fails())
         {
@@ -165,18 +168,48 @@ class MainController extends Controller
 
         $notification->clients()->attach($clientIds);
 
-        $tokens = Token::whereIn('client_id', $$clientIds)->where('token','!=', null)->pluck('token')->toArray();
-            if (count($tokens))
-            {
-                $title = $notification->title;
+        $tokens = Token::whereIn('client_id', $clientIds)->where('token','!=', null)->pluck('token')->toArray();
+        if (count($tokens))
+        {
+            $title = $notification->title;
+            $body = $notification->content;
+            $data = [
+
+                'donation_request_id' => $donationRequest->id
+            ];
+
+            $send = notifyByFirbase($title, $body, $tokens, $data);
+        }
+
+        $tokens = $client->tokens()->where('token', '!=', '')
+        ->whereIn('client_id', $clientIds)->pluck('token')->toArray();
+        if (count($tokens))
+        {
+            = ['include_players_ids' => $tokens];
+            =[
+                'ar' => 'يوجد اشعار من ل' . $request->user()->name(),
+                'en' => 'you have a new notification' . $request->user()->name(),
+            ];
+
+            $title = $notification->title;
                 $body = $notification->content;
                 $data = [
-
+                    'action' => 'new notify',
+                    'data' => null,
+                    'client' => 'client',
+                    'title' => $notification->title,
+                    'content' => $notification->content,
                     'donation_request_id' => $donationRequest->id
                 ];
+                info(json_decode($send));
+                info($send);
+                info("firebase result" . $send);
+                $send = json_decode($send);
 
-                $send = notifyByFirbase($title, $body, $tokens, $data);
-            }
+        }
+
+
+
         }
 
         return responseJson(1, 'successfuly add', $send);

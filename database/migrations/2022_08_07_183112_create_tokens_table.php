@@ -24,17 +24,7 @@ return new class extends Migration
         });
 
 
-        if ($validation->fails())
-        {
-            $data = $validation->errors();
-            return responseJson(0, $validation->errors()->first(),$data);
-        }
-
-        Token::where('token',$request->token)->delete();
-        $request->user()->tokens()->create($request->all());
-        return responseJson(1,'you are approved');
     }
-
     /**
      * Reverse the migrations.
      *

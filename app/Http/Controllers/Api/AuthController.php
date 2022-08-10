@@ -5,16 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Mail\ResetPassword;
 use App\Models\BloodType;
 use App\Models\Client;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Symfony\Component\CssSelector\Parser\Token;
-use Symfony\Contracts\Service\Attribute\Required;
 
 
-    //------------------register----------------//
+//------------------register----------------//
 
 class AuthController extends Controller
 {
@@ -56,7 +55,7 @@ class AuthController extends Controller
     }
 
 
-     //------------------new_password----------------//
+    //------------------new_password----------------//
 
 
     public function new_password(Request $request)
@@ -70,19 +69,18 @@ class AuthController extends Controller
         if ($request->password == $request->confirm_password) {
             $new_password = $request->password;
             $user = Client::where('email', $request->email)->first();
-            if($user){
-                $user->update(['password'=> bcrypt($new_password)]);
+            if ($user) {
+                $user->update(['password' => bcrypt($new_password)]);
                 return [
                     "status" => 1,
                     "msg" => "Password was succesfully chanegd",
                 ];
-            }else{
+            } else {
                 return [
                     "status" => 0,
                     "msg" => "User doesn't exist",
                 ];
             }
-
         } else {
             return [
                 "status" => 0,
@@ -93,7 +91,7 @@ class AuthController extends Controller
 
 
 
-     //------------------login----------------//
+    //------------------login----------------//
 
 
     public function login(Request $request)
@@ -126,10 +124,10 @@ class AuthController extends Controller
                     "status" => 1,
                     "message" => "Approved",
                     "data" => [
-                    "api_token" => $user->api_token,
-                    "client" => $user,
-                    'pin_code_for_test' => $code,
-                    'mail_fails' => Mail::failures()
+                        "api_token" => $user->api_token,
+                        "client" => $user,
+                        'pin_code_for_test' => $code,
+                        'mail_fails' => Mail::failures()
                     ],
                 ];
             } else {
@@ -148,73 +146,72 @@ class AuthController extends Controller
 
 
 
-        //------------------resetPassword----------------//
+    //------------------resetPassword----------------//
 
-    public function resetPassword(Request $request){
-        $validation = validator()->make($request->all(),
-        [
-            'phone' => 'required'
-        ]);
+    public function resetPassword(Request $request)
+    {
+        $validation = validator()->make(
+            $request->all(),
+            [
+                'phone' => 'required'
+            ]
+        );
 
-        if ($validation->fails()){
+        if ($validation->fails()) {
             $data = $validation->errors();
-            return responseJson(0, $validation->errors()->first(),$data);
+            return responseJson(0, $validation->errors()->first(), $data);
         }
 
         $user = Client::where('phone', $request->phone)->first();
-        if ($user){
-            $code = rand(1111,9999);
+        if ($user) {
+            $code = rand(1111, 9999);
             $update = $user->update(['pin_code' => $code]);
 
-        if ($update){
+            if ($update) {
 
-            return responseJson(1, 'check your number',['pin_code_for_test' => $code]);
-        }else{
-            return responseJson(0, 'try again');
-
-        }
-        }else{
+                return responseJson(1, 'check your number', ['pin_code_for_test' => $code]);
+            } else {
+                return responseJson(0, 'try again');
+            }
+        } else {
             return responseJson(0, 'account is faild');
         }
-
     }
 
-        //------------------password----------------//
+    //------------------password----------------//
 
 
     public function password(Request $request)
     {
-        $validation = validator()->make($request->all(),
-        [
-            'pin_code' => 'required',
-            'phone' => 'required',
-            'password' => 'required|confirmed'
-        ]);
+        $validation = validator()->make(
+            $request->all(),
+            [
+                'pin_code' => 'required',
+                'phone' => 'required',
+                'password' => 'required|confirmed'
+            ]
+        );
 
-        if($validation->fails())
-        {
+        if ($validation->fails()) {
             $data = $validation->errors();
-            return responseJson(0, $validation->errors()->first(),$data);
+            return responseJson(0, $validation->errors()->first(), $data);
         }
 
-        $user = Client::where('pin_code', $request->pin_code)->where('pin_code','!=',0)
-        ->where('phone',$request->phone)->first();
+        $user = Client::where('pin_code', $request->pin_code)->where('pin_code', '!=', 0)
+            ->where('phone', $request->phone)->first();
 
-        if ($user)
-        {
+        if ($user) {
             $user->password = bcrypt($request->password);
             $user->pin_code = null;
 
-            if ($user->save())
-            {
+            if ($user->save()) {
                 return responseJson(1, 'changed password successfully');
-            }else{
+            } else {
                 return responseJson(0, 'try again');
             }
-        }else{
+        } else {
             return responseJson(0, 'this code is not vaild');
         }
-
     }
 
     //------------------profile----------------//
@@ -222,36 +219,34 @@ class AuthController extends Controller
 
     public function profile(Request $request)
     {
-        $validation = validator()->make($request->all(),
-        [
-            'password' => 'confirmed',
-            'email' => Rule::unique('clients')->ignore($request->user()->id),
-            'phone' => Rule::unique('clients')->ignore($request->user()->id),
-        ]);
-        if ($validation->fails())
-        {
+        $validation = validator()->make(
+            $request->all(),
+            [
+                'password' => 'confirmed',
+                'email' => Rule::unique('clients')->ignore($request->user()->id),
+                'phone' => Rule::unique('clients')->ignore($request->user()->id),
+            ]
+        );
+        if ($validation->fails()) {
             $data = $validation->errors();
-            return responseJson(0, $validation->errors()->first(),$data);
+            return responseJson(0, $validation->errors()->first(), $data);
         }
 
         $loginUser = $request->user();
         $loginUser->update($request->all());
 
 
-        if ($request->has('password'))
-        {
+        if ($request->has('password')) {
             $loginUser->password = bcrypt($request->password);
         }
 
         $loginUser->save();
-        if ($request->has('governorate_id'))
-        {
+        if ($request->has('governorate_id')) {
             $loginUser->cities()->detach($request->city_id);
             $loginUser->governorates()->attach($request->city_id);
         }
 
-        if ($request->has('blood_type'))
-        {
+        if ($request->has('blood_type')) {
             $bloodType = BloodType::where('name', request()->blood_type)->first();
             $loginUser->bloodTypes()->detach($request->$bloodType->id);
             $loginUser->bloodTypes()->attach($request->$bloodType->id);
@@ -264,38 +259,50 @@ class AuthController extends Controller
 
     public function registerToken(Request $request)
     {
-        $validation = validator()->make($request->all(),
-    ['token' => 'required',
-      'platform' => 'required|in:android , ios'
-    ]);
+        $validation = validator()->make(
+            $request->all(),
+            [
+                'token' => 'required',
+                'platform' => 'required|in:android , ios'
+            ]
+        );
 
-    if($validation->fails())
-    {
-        $data = $validation->errors();
-        return responseJson(0, $validation->errors()->first(),$data);
-    }
+        if ($validation->fails()) {
+            $data = $validation->errors();
+            return responseJson(0, $validation->errors()->first(), $data);
+        }
 
-    Token::where('token', $request->token)->delete();
-    $request->user()->tokens()->create($request->all());
-    return responseJson(1, 'you are approved');
+        Token::where('token', $request->token)->delete();
+        $request->user()->tokens()->create($request->all());
+        return responseJson(1, 'you are approved');
     }
 
     public function removeToken(Request $request)
     {
-        $validation = validator()->make($request->all(),
-        [   'token' => 'required' ]);
+        $validation = validator()->make(
+            $request->all(),
+            ['token' => 'required']
+        );
 
-        if ($validation->fails())
-        {
+        if ($validation->fails()) {
             $data = $validation->errors();
-            return responseJson(0, $validation->errors()->first(),$data);
+            return responseJson(0, $validation->errors()->first(), $data);
         }
 
-        Token::where('token',$request->token)->delete();
+        Token::where('token', $request->token)->delete();
         return responseJson(1, 'delete is successfuly');
     }
 
 
+    public function register_token(Request $request)
+    {
+        $data = [
+            "client_id" => $request->client_id,
+            "type" => $request->type,
+            "token" => $request->token
+        ];
+        Token::create($data);
+    }
 }
             // }
             // if (Hash::check($request->password, $client->password)) {
