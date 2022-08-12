@@ -18,7 +18,7 @@ class Notification extends Model
 
     public function clients()
     {
-        return $this->hasMany(Client::class);
+        return $this->hasMany(Clients::class);
     }
 
 }

@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function () {
+Route::group(['prefix' => 'v1', 'namespace'=> 'Api'],function () {
 
     Route::post('login', [AuthController::class, 'login'])->name("login");
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name("reset_password");
@@ -32,7 +32,7 @@ Route::prefix('v1')->group(function () {
         Route::get('notifications', [MainController::class, 'notifications']);
         Route::post('profile', [AuthController::class, 'profile']);
         Route::get('donation', [MainController::class, 'donations']);
-        Route::post('contact', [MainController::class, 'contacts']);
+        // Route::post('contact', [MainController::class, 'contacts']);
         Route::get('posts', [MainController::class, 'posts']);
         Route::post('city', [MainController::class, 'city']);
         Route::get('governorates', [MainController::class, 'governorates']);
