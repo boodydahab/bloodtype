@@ -21,86 +21,87 @@ class AuthController extends Controller
     {
 
 
-        $validator = validator()->make($request->all(),[
+        $validator = validator()->make($request->all(), [
             'name' => 'required',
             'city_id' => 'required',
             'phone' => 'required',
             'last_donation_date' => 'required',
             'password' => 'required|confirmed',
-            'blood_type_id' => 'required',
+            'blood_type_id' => 'required|in:o-,o+,A-,A+,B-,B+,AB-,AB+',
             'email' => 'required|unique:clients',
 
+            // return $request->all();
         ]);
 
         if ($validator->fails()) {
-            return responseJson(0, 'validation error' , $validator->errors());
+            return responseJson(0, $validator->errors()->first(), $validator->errors());
         };
+        $bloodType = BloodType::where('name', $request->blood_type_id)->first();
 
+        $request->merge(['blood_type_id' => $bloodType->id]);
 
         $request->merge(['password' => bcrypt($request->password)]);
         $client = Client::create($request->all());
         $client->api_token = Str::random(60);
         $client->save();
-        $client->governorats()->attche($request->city_id);
-        $bloodType = BloodType::where('name', $request->blood_type)->first();
-        $client->bloodType()->attach($bloodType->id);
+        $client->bloodType()->associate($bloodType->id);
+        $client->governorates()->associate($request->city_id);
+        // $client->governorates()->attach($request->city_id);
 
-        return responseJson(1, 'successfully' , [$client->api_token ,'client' => $client]);
-
+        return responseJson(1, 'successfully', ['api_token' => $client->api_token, 'client' => $client]);
     }
 
 
 
-//------------------login----------------//
+    //------------------login----------------//
 
 
-public function login(Request $request)
-{
-    $validator = validator()->make($request->all(), [
-        'name' => 'required',
-        'phone' => 'required'
+    public function login(Request $request)
+    {
+        $validator = validator()->make($request->all(), [
+            'password' => 'required',
+            'phone' => 'required'
 
-    ]);
+        ]);
 
-    if ($validator->fails()) {
-        return responseJson(0, $validator->errors()->first(),$validator->errors());
-
-    }
-
-
-    $user = Client::where('phone', $request->phone)->first();
-    if ($user) {
-
-        if (Hash::check($request->password, $user->password))
-        return responseJson(1, 'successfully' , [$user->api_token ,'user' => $user]);
-
-        $code = rand(1111, 9999);
-        $update = $user->update(['pin_code' => $code]);
-
-
-        if ($update) {
-            // smsMisr($request->phone, message:" your reset code is : . $code");
-
-            Mail::to($user->email)
-                ->bcc("eng.magwad@gmail.com")
-                ->send(new ResetPassword($code));
-            return [
-                "status" => 1,
-                "message" => "Approved",
-                "data" => [
-                    "api_token" => $user->api_token,
-                    "client" => $user,
-                    'pin_code_for_test' => $code,
-                    'mail_fails' => Mail::failures()
-                ],
-            ];
-        } else {
-            return responseJson(0, 'try again');
+        if ($validator->fails()) {
+            return responseJson(0, $validator->errors()->first(), $validator->errors());
         }
-    } else {
-        return responseJson(0, 'There is no account with this number');
+
+
+        $client = Client::where('phone', $request->phone)->first();
+        if ($client) {
+
+            if (Hash::check($request->password, $client->password))
+                return responseJson(1, 'successfully', [$client->api_token, 'client' => $client]);
+
+            $code = rand(1111, 9999);
+            $update = $client->update(['pin_code' => $code]);
+
+
+            if ($update) {
+                // smsMisr($request->phone, message:" your reset code is : . $code");
+
+                Mail::to($client->email)
+                    ->bcc("eng.magwad@gmail.com")
+                    ->send(new ResetPassword($code));
+                return [
+                    "status" => 1,
+                    "message" => "Approved",
+                    "data" => [
+                        "api_token" => $client->api_token,
+                        "client" => $client,
+                        'pin_code_for_test' => $code,
+                        'mail_fails' => Mail::failures()
+                    ],
+                ];
+            } else {
+                return responseJson(0, 'try again');
+            }
+        } else {
+            return responseJson(0, 'There is no account with this number');
+        }
     }
-}
 
 
 

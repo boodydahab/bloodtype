@@ -33,12 +33,13 @@ class Client extends Authenticatable
 
     public function contacts()
     {
-        return $this->belongsTo('App\Models\contacts\Contacts');
+        return $this->belongsTo('App\Models\contacts\Contact');
     }
 
     public function governorates()
     {
-        return $this->belongsToMany('App\Models\Governorates');
+        return $this->belongsTo('App\Models\Governorate');
+        // return $this->belongsToMany('App\Models\Governorate');
     }
 
     public function posts()
@@ -51,10 +52,6 @@ class Client extends Authenticatable
         return $this->belongsToMany('App\Models\Notification\Notification');
     }
 
-    public function blood_types()
-    {
-        return $this->belongsToMany('App\Models\BloodType');
-    }
     public function tokens()
     {
         return $this->hasMany('App\Models\token');
