@@ -45,7 +45,7 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('no action');
 		});
 		Schema::table('client_governorate', function(Blueprint $table) {
-			$table->foreign('client_id')->references('id')->on('governorates')
+			$table->foreign('client_id')->references('id')->on('clients')
 						->onDelete('no action')
 						->onUpdate('no action');
 		});

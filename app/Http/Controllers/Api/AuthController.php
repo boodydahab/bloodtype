@@ -27,7 +27,7 @@ class AuthController extends Controller
             'phone' => 'required',
             'last_donation_date' => 'required',
             'password' => 'required|confirmed',
-            'blood_type_id' => 'required|in:o-,o+,A-,A+,B-,B+,AB-,AB+',
+            'blood_type_id' => 'required|exists:blood_types,id',
             'email' => 'required|unique:clients',
 
             // return $request->all();
@@ -36,17 +36,15 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return responseJson(0, $validator->errors()->first(), $validator->errors());
         };
-        $bloodType = BloodType::where('name', $request->blood_type_id)->first();
-
-        $request->merge(['blood_type_id' => $bloodType->id]);
 
         $request->merge(['password' => bcrypt($request->password)]);
         $client = Client::create($request->all());
         $client->api_token = Str::random(60);
         $client->save();
-        $client->bloodType()->associate($bloodType->id);
-        $client->governorates()->associate($request->city_id);
-        // $client->governorates()->attach($request->city_id);
+        // $client->bloodType()->associate($bloodType->id);
+        // $client->governorates()->associate($request->city_id);
+         $client->governorates()->attach($client->city->governorate_id);
+         $client->bloodTypes()->attach($client->blood_type_id);
 
         return responseJson(1, 'successfully', ['api_token' => $client->api_token, 'client' => $client]);
     }

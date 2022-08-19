@@ -21,7 +21,12 @@ class Client extends Authenticatable
         return $this->belongsTo('App\Models\BloodType');
     }
 
-    public function Cities()
+    public function bloodTypes()
+    {
+        return $this->belongsToMany('App\Models\BloodType');
+    }
+
+    public function city()
     {
         return $this->belongsTo('App\Models\City');
     }
@@ -38,8 +43,8 @@ class Client extends Authenticatable
 
     public function governorates()
     {
-        return $this->belongsTo('App\Models\Governorate');
-        // return $this->belongsToMany('App\Models\Governorate');
+        //return $this->belongsTo('App\Models\Governorate');
+        return $this->belongsToMany('App\Models\Governorate','client_governorate','client_id','government_id');
     }
 
     public function posts()
