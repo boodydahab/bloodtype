@@ -1,17 +1,17 @@
 @extends('layouts.app')
 @inject('client','App\Models\Client')
-@inject('donation','App\Models\DonationRequest')
+{{-- @inject('donation','App\Models\Donation_request') --}}
 @section('page_title')
 Dashboard
 @endsection
 @section('small_title')
-Statistics
+statistic
 @endsection
+
 @section('content')
 
 
-      <!-- Main content -->
-      <section class="content">
+    <section class="content">
         <div class="row">
           <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
@@ -24,17 +24,20 @@ Statistics
         </div>
           <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-            <span class="info-box-icon bg-info"><i class="far fa-user"></i></span>
+            <span class="info-box-icon bg-green"><i class="fas fa-chart-line"></i></span>
             <div class="info-box-content">
-            <span class="info-box-text">Donation Request</span>
-             <span class="info-box-number">{{$donation->count()}}</span>
+            <span class="info-box-text">Donation Requests</span>
+             <span class="info-box-number"></span>
           </div>
          </div>
         </div>
      </div>
         <!-- Default box -->
+
         <div class="card">
+
           <div class="card-header">
+
             <h3 class="card-title">Title</h3>
 
             <div class="card-tools">
@@ -58,6 +61,9 @@ Statistics
         <!-- /.card -->
 
       </section>
+  </div>
+      <!-- Main content -->
+
       <!-- /.content -->
 
     </div>

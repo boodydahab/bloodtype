@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/home', function () {
-//     return view('home',[HomeController::class])->name('home');
-// });
+Route::get('/home', function () {
+    return view('home');
+});
 
-Auth::routes();
-Route::get('/home',[HomeController::class])->index('home');
+// Auth::routes();
+// Route::get('/home',[HomeController::class])->index('home');
