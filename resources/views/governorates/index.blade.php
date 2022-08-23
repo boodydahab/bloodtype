@@ -2,17 +2,17 @@
 @inject('client','App\Models\Client')
 @inject('donation','App\Models\Donation_request')
 @section('page_title')
-Dashboard
+Governorates
 @endsection
 @section('small_title')
-statistic
+test
 @endsection
 
 @section('content')
 
 
     <section class="content">
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
             <span class="info-box-icon bg-info"><i class="far fa-user"></i></span>
@@ -21,7 +21,7 @@ statistic
              <span class="info-box-number">{{$client->count()}}</span>
           </div>
          </div>
-        </div>
+        </div> --}}
           <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
             <span class="info-box-icon bg-green"><i class="fas fa-chart-line"></i></span>
@@ -38,7 +38,7 @@ statistic
 
           <div class="card-header">
 
-            <h3 class="card-title">Title</h3>
+            <h3 class="card-title">List of Governorates</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -50,16 +50,41 @@ statistic
             </div>
           </div>
           <div class="card-body">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
+            @if(count($records))
+
+            <div class="table-responsive">
+                <table class="table table-borderd">
+                    <thead>
+                    <tr>#</tr>
+                    <tr>Name</tr>
+                    <tr>edit</tr>
+                    <tr>Delete</tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($recordes as $record)
+
+                            <tr>
+                                <td>
+                                {{$loop->iteration}}
+                                </td>
+                                <td>
+                                {{$record->Name}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            @else
+            <div class="alert alert-danger" role="alert">
+               NO data
+            </div>
             @endif
           </div>
           <!-- /.card-body -->
-          <div class="card-footer">
-            Footer
-          </div>
+
           <!-- /.card-footer-->
         </div>
         <!-- /.card -->
