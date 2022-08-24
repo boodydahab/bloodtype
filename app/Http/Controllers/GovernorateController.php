@@ -1,10 +1,8 @@
 <?php
-namespace App\Http\Controllers\GovernorateController;
+namespace App\Http\Controllers;
 
 
-use App\Models\Governorate;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
 
 class GovernorateController extends Controller
@@ -16,7 +14,7 @@ class GovernorateController extends Controller
      */
     public function index()
     {
-       $records = Governorate::paginate(20);
+    //    $records = Governorate::paginate(20);
        return view('governorates.index' , compact('records'));
     }
 

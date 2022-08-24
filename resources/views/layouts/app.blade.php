@@ -567,7 +567,7 @@
                   <p>Contact us</p>
                 </a>
               </li> --}}
-            </ul>
+            {{-- </ul> --}}
           {{-- </li>
           <li class="nav-item menu-open">
             <a href="#" class="nav-link active">
@@ -732,6 +732,12 @@
             <a href="https://adminlte.io/docs/3.1/" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Settings</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href={{ url(route('governorate.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>Governorates</p>
             </a>
           </li>
           {{-- <li class="nav-header">MULTI LEVEL EXAMPLE</li>

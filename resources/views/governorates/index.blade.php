@@ -62,7 +62,7 @@ test
                     </thead>
 
                     <tbody>
-                        @foreach ($recordes as $record)
+                        @foreach ($$records as $record)
 
                             <tr>
                                 <td>
