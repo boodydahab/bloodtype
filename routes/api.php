@@ -32,7 +32,7 @@ Route::group(['prefix' => 'v1', 'namespace'=> 'Api'],function () {
         Route::get('notifications', [MainController::class, 'notifications']);
         Route::post('profile', [AuthController::class, 'profile']);
         Route::get('donation', [MainController::class, 'donations']);
-        // Route::post('contact', [MainController::class, 'contacts']);
+        Route::post('contact', [MainController::class, 'contacts']);
         Route::get('posts', [MainController::class, 'posts']);
         Route::post('city', [MainController::class, 'city']);
         Route::get('governorates', [MainController::class, 'governorates']);

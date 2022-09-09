@@ -1,7 +1,10 @@
 <?php
+
+
 namespace App\Http\Controllers;
-
-
+// use App\Http\Controllers\Controller;
+use App\Models\Governorate;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 
@@ -14,7 +17,9 @@ class GovernorateController extends Controller
      */
     public function index()
     {
-    //    $records = Governorate::paginate(20);
+       $records = Governorate::paginate(20);
+
+    //    flash("success")->success();
        return view('governorates.index' , compact('records'));
     }
 
@@ -25,7 +30,7 @@ class GovernorateController extends Controller
      */
     public function create()
     {
-        //
+        return view('governorates.create');
     }
 
     /**
@@ -36,7 +41,19 @@ class GovernorateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $roles =[
+            'name' => 'required'
+        ];
+
+        $messages =[
+            'name.register' => 'Name is Required'
+        ];
+
+        // $this->validation($request ,$roles ,$messages);
+        $record = new Governorate;
+        $record -> name =$request->input('name');
+        $record->save();
+        return redirect()->back();
     }
 
     /**
@@ -58,7 +75,8 @@ class GovernorateController extends Controller
      */
     public function edit($id)
     {
-        //
+        $model = Governorate::findOrfail($id);
+        return view('governorates.edit', compact('model'));
     }
 
     /**
@@ -70,7 +88,11 @@ class GovernorateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $record = Governorate::findOrfail($id);
+        $record->update($request->all());
+        // flash()->success('Edited');
+        return redirect()->back();
+
     }
 
     /**
@@ -81,6 +103,8 @@ class GovernorateController extends Controller
      */
     public function destroy($id)
     {
-        //
+       $record = Governorate::findOrfail($id);
+       $record->delete();
+       return redirect()->back();
     }
 }

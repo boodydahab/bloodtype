@@ -59,7 +59,7 @@ class Client extends Authenticatable
 
     public function tokens()
     {
-        return $this->hasMany('App\Models\token');
+        return $this->hasMany('App\Models\Token');
     }
 
 

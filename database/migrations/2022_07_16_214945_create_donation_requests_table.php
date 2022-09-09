@@ -15,6 +15,7 @@ class CreateDonationRequestsTable extends Migration {
 			$table->string('patient_phone');
 			$table->string('patient_age');
 			$table->unsignedBigInteger('city_id');
+			$table->unsignedBigInteger('client_id');
 			$table->string('hospitsl_name');
 			$table->string('hospital_address');
 			$table->string('bags_num');

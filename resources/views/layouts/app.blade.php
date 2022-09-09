@@ -728,16 +728,123 @@
               <p>Tabbed IFrame Plugin</p>
             </a>
           </li> --}}
+
           <li class="nav-item">
+            <a href={{ url(route('governorate.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-marker"></i>
+              <p>Governorates</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href={{ url(route('city.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-flag"></i>
+              <p>cities</p>
+            </a>
+          </li>
+          {{-- <li class="nav-item">
+            <a href={{ url(route('category.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>categoryies</p>
+            </a>
+          </li> --}}
+          <li class="nav-item">
+            <a href={{ url(route('post.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-comment"></i>
+              <p>posts</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href={{ url(route('client.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>clients</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href={{ url(route('donation.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-heart"></i>
+              <p>Donations</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href={{ url(route('category.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>categories</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href={{ url(route('contact.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-phone"></i>
+              <p>contacts</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href={{ url(route('user.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>users</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href={{ url(route('role.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>Role</p>
+            </a>
+          </li>
+
+          {{-- <li class="nav-item">
+            <a href={{ url(route('password_reset.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>change-password</p>
+            </a>
+          </li> --}}
+
+          <li class="nav-item">
+            <a href={{ url(route('setting.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>Settings</p>
+            </a>
+          </li>
+
+          {{-- <li class="nav-item">
             <a href="https://adminlte.io/docs/3.1/" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Settings</p>
             </a>
-          </li>
+          </li> --}}
+
+
+
+          {{--
           <li class="nav-item">
-            <a href={{ url(route('governorate.index')) }} class="nav-link">
+            <a href={{ url(route('change password.index')) }} class="nav-link">
               <i class="nav-icon fas fa-list"></i>
-              <p>Governorates</p>
+              <p>cities</p>
+            </a>
+          </li>
+
+
+          <li class="nav-item">
+            <a href={{ url(route('city.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>cities</p>
+            </a>
+          </li> --}}
+
+
+
+
+
+
+
+          {{-- <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+          <li class="nav-item">
+            <a href={{ url(route('city.index')) }} class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>cities</p>
             </a>
           </li>
           {{-- <li class="nav-header">MULTI LEVEL EXAMPLE</li>

@@ -13,7 +13,7 @@ use App\Models\post;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Models\token;
+use App\Models\Token;
 use App\Http\Controllers\Api\Client;
 use PhpParser\Parser\Tokens;
 
@@ -202,8 +202,13 @@ class MainController extends Controller
 
     public function contacts(Request $request)
     {
-        $contacts = Contact::paginate();
 
-        return responseJson(1, 'success', $contacts);
+            $clientId = auth('api')->user()->id;
+            $message = Contact::create([
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'client_id' => $clientId,
+            ]);
+        return responseJson(1, 'success', $message );
     }
 }
