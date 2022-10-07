@@ -43,7 +43,7 @@ class SettingController extends Controller
         ];
 
         $messages =[
-            'name.register' => 'Name is Required'
+            'name.require' => 'Name is Required'
         ];
 
         // $this->validation($request ,$roles ,$messages);

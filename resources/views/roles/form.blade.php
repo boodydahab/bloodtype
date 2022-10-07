@@ -1,39 +1,44 @@
+@inject('perm', 'App\Models\permission')
 
-@inject('perm', 'App\Models\Permission' )
 <div class="form-group">
     <label for="name">Name</label>
     <div class="form-group">
-      <input type="text" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="">
+        <input type="text" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="">
     </div>
-  </div>
+</div>
 <div class="form-group">
-    <label for="name">Description</label>
-    <div class="form-group">
-      <input type="textarea" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="">
-    </div>
-  </div>
-<div class="form-group">
-    <label for="name">permission</label>
+    <label for="name">permission</label><br>
+    <input id="select-all" name="all" type="checkbox">
+    <label for="all">Select all</label>
     <div class="row">
-        @foreach ($perm->all() as $permission )
+        @foreach ($perm->all() as $permission)
             <div class="col-sm-3">
-
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" name="permission_list" id="flexCheckChecked" checked/>
-                    {{$permission->display_name}}
-                    <label class="form-check-label" for="flexCheckChecked">Checked checkbox</label>
-                  </div>
+                    <input class="form-check-input" type="checkbox" value="" data-in="role" id="flexCheckDefault"
+                        name="permissions[]">{{ $permission->name }}
+                    {{-- value="{{$permission->id}}"
+                @if ($model->hasPermission($permission->id))
 
+                @endif --}}
+                    <label class="form-check-label" for="flexCheckDefault">
+                    </label>
+                </div>
             </div>
         @endforeach
     </div>
-    <div class="form-group">
-      <input type="text" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="">
-    </div>
-  </div>
-  <div class="form-group">
+
+</div>
+<div class="form-group">
     <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-    </div>
+</div>
+@push('scripts')
+    <script>
 
-
+// alert(11);
+        $("#select-all").on("change", function() {
+            console.log('te')
+            $('input[data-in="role"]').prop('checked', $(this).prop('checked'));
+        });
+    </script>
+@endpush
+</div>

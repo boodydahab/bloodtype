@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Role;
-
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -36,23 +35,23 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request )
     {
         $rules =[
-            'name' => 'required|unique:roles',
-            'permission_list' => 'required|array'
+            'name' => 'required|unique:roles,name',
+            'permissions' => 'required'
         ];
 
         $messages =[
             'name.required' => 'Name is Required',
-            'permission_list.required' => 'Name is Required'
+            'permissions.required' => 'Permissions is Required'
         ];
 
-        $this->validation($request ,$rules ,$messages);
-        $record =  Role::create($request->all());
-        $record -> name =$request->input('name');
-        $record->save();
-        return redirect(route('roles.index'));
+        $this->validate($request ,$rules ,$messages);
+        $role = Role::create(['name' => $request->input('name')]);
+        $role->syncPermissions($request->input('permissions'));
+
+        return redirect(route('role.index'));
     }
 
     /**
@@ -87,6 +86,16 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $rules =[
+            'name' => 'required|unique:roles,name','.$id',
+            'permissions_list' => 'required|array'
+        ];
+
+        $messages =[
+            'name.required' => 'Name is Required',
+            'permissions_list.required' => 'Permissions is Required'
+        ];
         $record = Role::findOrfail($id);
         $record->update($request->all());
         // flash()->success('Edited');

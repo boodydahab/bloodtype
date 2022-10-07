@@ -158,7 +158,7 @@ class MainController extends Controller
                     $query->where('blood_types.id', $donationRequest->blood_type_id);
                 });
             })->pluck('token')->toArray();
-            dd($tokens);
+
             if (count($tokens)) {
                 $title = $notification->title;
                 $body = $notification->content;

@@ -58,8 +58,8 @@ Governorate</a> --}}
 <th>#</th>
 <th class="text-center">name</th>
 <th class="text-center">Email</th>
-<th class="text-center">Edit</th>
 <th class="text-center">Delete</th>
+<th class="text-center">Edit</th>
 </thead>
 
 <tbody>
@@ -77,6 +77,7 @@ Governorate</a> --}}
 <td>
     {{ $record->email }}
 </td>
+
 
 
 

@@ -49,9 +49,9 @@ test
 </div>
 <div class="card-body">
 <a href="{{ url(route('role.create')) }} "class="btn btn-primary"><i class="fa fa-plus"></i> New
-    Role</a>
+    Roles</a>
 @include('flash::message')
-{{-- @if (count($records)) --}}
+@if (count($records))
 <div class="table-responsive">
 <table class="table table-bordered">
 <thead>
@@ -72,9 +72,6 @@ test
 <td>
 {{ $record->name }}
 </td>
-<td>
-{{ $record->display_name }}
-</td>
 <td class="text-right">
 <a href="{{ url(route('role.edit', $record->id)) }}"
     class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
@@ -93,11 +90,11 @@ test
 </tbody>
 </table>
 </div>
-{{-- @else --}}
-{{-- <div class="alert alert-danger" role="alert">
+@else
+<div class="alert alert-danger" role="alert">
 NO data
-</div> --}}
-{{-- @endif --}}
+</div>
+@endif
 </div>
 <!-- /.card-body -->
 

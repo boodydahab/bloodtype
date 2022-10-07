@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @inject('model' ,'App\Models\Role' )
 @section('page_title')
-Role
+Roles
 @endsection
 @section('small_title')
 
@@ -37,7 +37,7 @@ Role
 
           <div class="card-header">
 
-            <h3 class="card-title">Role</h3>
+            <h3 class="card-title">Roles</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

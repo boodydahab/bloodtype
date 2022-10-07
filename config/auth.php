@@ -46,6 +46,11 @@ return [
             'driver' => 'token',
             'provider' => 'clients',
         ],
+
+        'client-web' => [
+            'driver' => 'session',
+            'provider' => 'clients',
+        ],
     ],
 
     /*

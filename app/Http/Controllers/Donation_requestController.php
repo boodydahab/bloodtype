@@ -36,12 +36,12 @@ class Donation_requestController extends Controller
      */
     public function store(Request $request)
     {
-        $roles =[
+        $rules =[
             'name' => 'required'
         ];
 
         $messages =[
-            'name.register' => 'Name is Required'
+            'name.require' => 'Name is Required'
         ];
 
         // $this->validation($request ,$roles ,$messages);

@@ -979,5 +979,13 @@
 <script src="{{asset('assets/admin-lte/plugins/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('assets/admin-lte/plugins/js/demo.js')}}"></script>
+
+@stack('scripts')
+
+@push('scripts')
+
+@endpush
+
+
 </body>
 </html>

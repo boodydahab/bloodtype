@@ -75,7 +75,7 @@ test
 {{ $record->title }}
 </td>
 <td>
-{{ $record->image }}
+    <img src="{{$record->image}}" alt="image">
 </td>
 <td class="text-right">
 <a href="{{ url(route('post.edit', $record->id)) }}"

@@ -38,6 +38,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         // $roles =[
         //     'name' => 'required'
         // ];
@@ -47,14 +48,14 @@ class PostController extends Controller
         // ];
 
         // $this->validation($request ,$roles ,$messages);
-        Post::create([
-            'title' => 'first post',
-            'image' => 'boody.png',
-            'content' => 'first post first post first post first post first post ',
-            'category_id' => 1
+        // Post::create([
+        //     'title' => 'fi rst post',
+        //     'image' => 'boody.png',
+        //     'content' => 'first post first post first post first post first post ',
+        //     'category_id' => 1
 
-        ]);
-        return redirect()->back();
+        // ]);
+        // return redirect()->back();
     }
 
     /**
@@ -65,7 +66,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return view();
     }
 
     /**

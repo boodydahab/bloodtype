@@ -71,4 +71,8 @@ statistic
       <!-- /.content -->
 
     </div>
+
+
+
+
 @endsection

@@ -1,20 +1,22 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Front\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Front\MainController;
 use App\Http\Controllers\Donation_requestController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
-use App\Models\Governorate;
+use App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,23 +28,41 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('/', function () {
+//     return view('front.home');
+// });
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['namespace' => 'Front'], function(){
+    Route::get('/', [MainController::class, 'home'])->name('home');
+    Route::get('about', [MainController::class, 'about'])->name('about');
+    Route::get('post', [MainController::class, 'post']);
+    Route::get('donations', [MainController::class, 'donations']);
+    Route::get('contact', [MainController::class, 'contact'])->name('contact');
+    // Route::get('create-account', [MainController::class, 'create-account']);
+    Route::get('client-register', [AuthController::class, 'register']);
+    Route::get('signin', [AuthController::class, 'signin'])->name('signin');
+    Route::post('log_in', [AuthController::class, 'login'])->name('log_in');
+    Route::post('toggle-favourite', [MainController::class, 'toggleFavourite'])->name('toggle-favourite');
 });
 
-Route::get('/home', function () {
-    return view('home');
-});
+// Route::get('/home', function () {
+//     return view('home');
+// });
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('name');
 
-// Auth::routes();
-// Route::get('/home',[HomeController::class])->index('home');
+
 
 Auth::routes();
-//Admin panal
-Route::group(['middelware' => ['auth','auto-check-permission'] , 'prefix' => 'admin'], function () {
+// Route::get('/home',[HomeController::class])->index('home');
 
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::group(['prefix' => 'admin'],function () {
+    Auth::routes();
+});//Admin panal
+Route::group(['middleware' => ['auth:web'] , 'prefix' => 'admin'], function () {
+
+    Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::resource('governorate', GovernorateController::class);
     Route::resource('city', CityController::class);
     Route::resource('post', PostController::class);
@@ -54,7 +74,8 @@ Route::group(['middelware' => ['auth','auto-check-permission'] , 'prefix' => 'ad
     Route::resource('category', CategoryController::class);
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
+    Route::resource('permission', PermissionController::class);
 
-    Route::get('user/change-password', 'UserController@ChangePassword');
-    Route::post('user/change-password', 'UserController@ChangePasswordSave');
+    Route::get('user/change-password',[UserController::class,'changePassword']);
+    Route::post('user/change-password',[UserController::class,'ChangePasswordSave']);
 });
